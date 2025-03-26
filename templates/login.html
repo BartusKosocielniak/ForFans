@@ -31,6 +31,7 @@
             background: rgba(255, 255, 255, 0.2);
             border: none;
             color: white;
+            text-align: center;
         }
         .form-control::placeholder {
             color: rgba(255, 255, 255, 0.7);
@@ -46,6 +47,18 @@
             color: white;
             transform: scale(1.05);
         }
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+        }
+        .text-start, .text-center {
+            text-align: center !important;
+        }
+        .btn-custom, .btn-primary {
+            margin-top: 1rem;
+        }
+
     </style>
 {% endblock %}
 
@@ -62,25 +75,29 @@
     <form method="post" class="mt-4">
         {{ login_form.hidden_tag() }}
 
-        <div class="mb-3 text-start">
+        <div class="mb-3">
             <label for="user_email" class="form-label">Email</label>
-            <div class="input-group">
-                <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-envelope"></i></span>
-                {{ login_form.user_email(class="form-control text-center", id="user_email", placeholder="Twój email") }}
+            <div class="">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                {{ login_form.user_email(class="form-control", id="user_email", placeholder="Twój email") }}
             </div>
         </div>
 
-        <div class="mb-3 text-center">
+        <div class="mb-3 d-flex align-items-center justify-content-center">
             <label for="user_password" class="form-label">Hasło</label>
-            <div class="input-group">
-                <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-key"></i></span>
-                {{ login_form.user_password(class="form-control text-center", id="user_password", placeholder="Twoje hasło", type="password") }}
+            <div class="">
+                <span class="input-group-text"><i class="bi bi-key"></i></span>
+                {{ login_form.user_password(class="form-control", id="user_password", placeholder="Twoje hasło", type="password") }}
             </div>
         </div>
 
-        <div class="d-grid">
-            {{ login_form.submit(class="btn btn-custom rounded-3") }}
+        <div class="d-flex gap-3 mt-4">
+            {{ login_form.submit(class="btn btn-custom rounded-3 m-1") }}
+            <a class="btn btn-primary rounded-3 px-4 py-2 m-1" href="/register">Zarejestruj się</a>
         </div>
+
+
+
     </form>
 
     {% with messages = get_flashed_messages(with_categories=True) %}

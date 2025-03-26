@@ -46,6 +46,10 @@
             color: white;
             transform: scale(1.05);
         }
+        .btn-custom, .btn-primary {
+            margin-top: 1rem;
+        }
+
     </style>
 {% endblock %} 
 
@@ -64,7 +68,7 @@
         
         <div class="mb-3 text-start">
             <label for="user_first_name" class="form-label">Imię</label>
-            <div class="input-group">
+            <div class="">
                 <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-person"></i></span>
                 {{ register_form.user_first_name(class="form-control text-center", id="user_first_name", placeholder="Twoje imię") }}
             </div>
@@ -72,7 +76,7 @@
         
         <div class="mb-3 text-start">
             <label for="user_last_name" class="form-label">Nazwisko</label>
-            <div class="input-group">
+            <div class="">
                 <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-person"></i></span>
                 {{ register_form.user_last_name(class="form-control text-center", id="user_last_name", placeholder="Twoje nazwisko") }}
             </div>
@@ -80,7 +84,7 @@
         
         <div class="mb-3 text-start">
             <label for="user_email" class="form-label">Email</label>
-            <div class="input-group">
+            <div class="">
                 <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-envelope"></i></span>
                 {{ register_form.user_email(class="form-control text-center", id="user_email", placeholder="Twój email") }}
             </div>
@@ -88,15 +92,17 @@
         
         <div class="mb-3 text-start">
             <label for="user_password" class="form-label">Hasło</label>
-            <div class="input-group">
+            <div class="">
                 <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-key"></i></span>
                 {{ register_form.user_password(class="form-control text-center", id="user_password", placeholder="Twoje hasło", type="password") }}
             </div>
         </div>
-        
-        <div class="d-grid">
+
+        <div class="d-flex gap-3 mt-4">
             {{ register_form.submit(class="btn btn-custom rounded-3") }}
+            <a class="btn btn-primary rounded-3 px-4 py-2 m-1" href="/">login</a>
         </div>
+
     </form>
     
     {% with messages = get_flashed_messages(with_categories=True) %}                     
