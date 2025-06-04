@@ -1,0 +1,77 @@
+ KROK 1: Podstawy projektu
+ Utwórz strukturę projektu Flask (app.py, templates/, static/, models.py, forms.py, data/ itd.)
+
+ Skonfiguruj środowisko: Flask, Flask-Login, Flask-WTF, Flask-SQLAlchemy, Flask-Migrate
+
+ Ustaw bazę danych (SQLite lub PostgreSQL)
+
+👤 KROK 2: System użytkowników
+ Rejestracja i logowanie (Flask-Login)
+
+ Rola użytkownika: twórca / subskrybent
+
+ Profile publiczne/prywatne
+
+ Edycja profilu (bio, avatar, baner, dane kontaktowe itp.)
+
+📸 KROK 3: Tworzenie treści
+ System postów (tekst + opcjonalny obrazek/wideo)
+
+ Widok feedu (globalny, użytkownika, subskrybowanych)
+
+ Hashtagi i oznaczanie innych użytkowników (opcjonalnie)
+
+ Dodawanie komentarzy i lajków
+
+💳 KROK 4: System subskrypcji/płatności
+ Użytkownik może ustawić płatną subskrypcję (np. miesięczną)
+
+ Możliwość płatności Stripe lub PayPal
+
+ Subskrybenci mają dostęp do prywatnych postów twórcy
+
+📁 KROK 5: Media i pliki
+ Przesyłanie plików (obrazki, filmy)
+
+ Ograniczenie rozmiaru, formaty plików
+
+ Podgląd multimediów
+
+ (Opcjonalnie) Watermark lub zabezpieczenia przed pobraniem
+
+🔍 KROK 6: Wyszukiwanie i eksploracja
+ Wyszukiwanie użytkowników, tagów, postów
+
+ Strona “odkrywaj” z polecanymi twórcami
+
+ Popularne hashtagi i posty
+
+🛡️ KROK 7: Bezpieczeństwo i moderacja
+ Autoryzacja widoków
+
+ Zgłaszanie treści
+
+ Blokowanie użytkowników
+
+ Ograniczenia wiekowe (18+)
+
+🧠 KROK 8: Ulepszenia i AI
+ Propozycje treści (na bazie zainteresowań)
+
+ Auto-generowanie tagów z obrazów
+
+ Moderacja treści AI (np. wykrywanie nagości)
+
+🧪 KROK 9: Testowanie i wdrożenie
+ Testy jednostkowe
+
+ Debugowanie
+
+ Wdrożenie (np. na Render, Railway, Heroku lub VPS)
+
+
+
+
+///-----------------------
+zmien model ze jest jeszcze username
+stałej szerkosci menu

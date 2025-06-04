@@ -1,0 +1,29 @@
+{% extends "bootstrap/base.html" %}
+{% block scripts %}
+    {{ super() }}
+    <link rel="stylesheet" href="static/css/aside.css">
+    <link rel="stylesheet" href='static/css/main.css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
+{% block title %}Users{% endblock %}
+{% block navbar %}
+
+{% endblock %}
+{% block content %}
+{#    <div class="d-flex">#}
+
+  <div class="layout-container">
+        {% include "includes/aside-menu-admin.html" %}
+  <div class="wrapper">
+    <p>
+        {% for user in users %}
+            <li>ID: {{ user.id }} | Nazwa: {{ user.first_name }} | LastName: {{ user.last_name }} | | Email: {{ user.email }} | Role: {{ user.role }}</li>
+        {% else %}
+            <li>Brak użytkowników w bazie danych.</li>
+        {% endfor %}
+    </p>
+    </div>
+  </div>
+{#    </div>#}
+{#    //zrob search#}
+{% endblock %}
