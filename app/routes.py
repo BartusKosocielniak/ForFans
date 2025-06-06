@@ -15,18 +15,20 @@ def login():
             login_user(user)
             return redirect(url_for('home'))
         else:
-            flash('Błędny email lub hasło')
-    return render_template('login.html', login_form=form, title="Logowanie", header="Witaj!")
+            flash('Incorrect password or email')
+    return render_template('login.html', login_form=form, title="Sign in", header="Hello!")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        existing_user = User.query.filter_by(email=form.user_email.data).first()
+        existing_user = User.query.filter_by(
+            email=form.user_email.data,
+            username=form.username.data
+        ).first()
         if existing_user:
-            exception = 'Użytkownik z takim emailem już istnieje.'
-            return render_template('register.html', register_form=form, title="Rejestracja", header="Dołącz do nas!",
-                                   exception='Użytkownik z takim emailem już istnieje.')
+            return render_template('register.html', register_form=form, title="Sing up", header="Dołącz do nas!",
+                                   exception='A user with that email or username already exists.')
 
         role = 'admin' if User.query.count() == 0 else 'user'
         hashed_pw = generate_password_hash(form.user_password.data)
@@ -40,10 +42,10 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        flash('Rejestracja zakończona sukcesem. Zaloguj się.', 'success')
+        flash('Sign up success. Sign in.', 'success')
         return redirect(url_for('login'))
 
-    return render_template('register.html', register_form=form, title="Rejestracja", header="Dołącz do nas!", exception="")
+    return render_template('register.html', register_form=form, title="Sign up", header="Join us", exception="")
 
 
 @app.route('/home')
@@ -55,7 +57,7 @@ def home():
 @login_required
 def logout():
     logout_user()
-    flash('Zostałeś wylogowany.')
+    flash('You just sign out')
     return redirect(url_for('login'))
 
 

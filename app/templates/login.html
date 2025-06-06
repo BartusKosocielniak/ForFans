@@ -70,7 +70,7 @@
 <div class="login-container">
     <i class="bi bi-people display-1 text-white-50"></i>
     <p class="display-6 fw-bold">{{ header }}</p>
-    <p class="h5 text-white-50">Zaloguj się do Forfuns</p>
+    <p class="h5 text-white-50">Sign in Forfuns!!</p>
 
     <form method="post" class="mt-4">
         {{ login_form.hidden_tag() }}
@@ -79,21 +79,21 @@
             <label for="user_email" class="form-label">Email</label>
             <div class="">
                 <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                {{ login_form.user_email(class="form-control", id="user_email", placeholder="Twój email") }}
+                {{ login_form.user_email(class="form-control", id="user_email", placeholder="Your Email") }}
             </div>
         </div>
 
         <div class="mb-3 d-flex align-items-center justify-content-center">
-            <label for="user_password" class="form-label">Hasło</label>
+            <label for="user_password" class="form-label">Password</label>
             <div class="">
                 <span class="input-group-text"><i class="bi bi-key"></i></span>
-                {{ login_form.user_password(class="form-control", id="user_password", placeholder="Twoje hasło", type="password") }}
+                {{ login_form.user_password(class="form-control", id="user_password", placeholder="Your password", type="password") }}
             </div>
         </div>
 
         <div class="d-flex gap-3 mt-4">
             {{ login_form.submit(class="btn btn-custom rounded-3 m-1") }}
-            <a class="btn btn-primary rounded-3 px-4 py-2 m-1" href="/register">Zarejestruj się</a>
+            <a class="btn btn-primary rounded-3 px-4 py-2 m-1" href="/register">Sign up</a>
         </div>
 
 

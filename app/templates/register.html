@@ -63,7 +63,7 @@
 <div class="login-container">
     <i class="bi bi-people display-1 text-white-50"></i>
     <p class="display-6 fw-bold">{{ header }}</p>
-    <p class="h5 text-white-50">Zarejestruj się do Forfuns</p>
+    <p class="h5 text-white-50">Create your account</p>
     <p>{{ exception }}</p>
     <form method="post" class="mt-4">
         {{ register_form.hidden_tag() }}
@@ -76,18 +76,18 @@
         </div>
 
         <div class="mb-3 text-start">
-            <label for="user_first_name" class="form-label">Imię</label>
+            <label for="user_first_name" class="form-label">First name</label>
             <div class="">
                 <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-person"></i></span>
-                {{ register_form.user_first_name(class="form-control text-center", id="user_first_name", placeholder="Twoje imię") }}
+                {{ register_form.user_first_name(class="form-control text-center", id="user_first_name", placeholder="Your first name") }}
             </div>
         </div>
         
         <div class="mb-3 text-start">
-            <label for="user_last_name" class="form-label">Nazwisko</label>
+            <label for="user_last_name" class="form-label">Last name</label>
             <div class="">
                 <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-person"></i></span>
-                {{ register_form.user_last_name(class="form-control text-center", id="user_last_name", placeholder="Twoje nazwisko") }}
+                {{ register_form.user_last_name(class="form-control text-center", id="user_last_name", placeholder="Your last name") }}
             </div>
         </div>
         
@@ -95,21 +95,21 @@
             <label for="user_email" class="form-label">Email</label>
             <div class="">
                 <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-envelope"></i></span>
-                {{ register_form.user_email(class="form-control text-center", id="user_email", placeholder="Twój email") }}
+                {{ register_form.user_email(class="form-control text-center", id="user_email", placeholder="Your email") }}
             </div>
         </div>
         
         <div class="mb-3 text-start">
-            <label for="user_password" class="form-label">Hasło</label>
+            <label for="user_password" class="form-label">Password</label>
             <div class="">
                 <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-key"></i></span>
-                {{ register_form.user_password(class="form-control text-center", id="user_password", placeholder="Twoje hasło", type="password") }}
+                {{ register_form.user_password(class="form-control text-center", id="user_password", placeholder="Your password", type="password") }}
             </div>
         </div>
 
         <div class="d-flex gap-3 mt-4">
             {{ register_form.submit(class="btn btn-custom rounded-3") }}
-            <a class="btn btn-primary rounded-3 px-4 py-2 m-1"  href="/">login</a>
+            <a class="btn btn-primary rounded-3 px-4 py-2 m-1"  href="/">Sign in</a>
         </div>
 
     </form>
