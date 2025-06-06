@@ -73,5 +73,9 @@
 
 
 ///-----------------------
-zmien model ze jest jeszcze username
+try catch przy register jakby zagrazalo unique
+zrob formularz update
+zrob tabelke relayjnie gdzie bedzie id tworcy(musi byc tworca) i bedzie dodawac posty, nastepnie
+https://chatgpt.com/c/683c538a-5974-8010-b263-32af2a9ac2c3 - rozwiaznie z followami, jak bedzie endpoint kazdego uzytkownika {{}}
+
 stałej szerkosci menu

@@ -31,6 +31,7 @@ def register():
         role = 'admin' if User.query.count() == 0 else 'user'
         hashed_pw = generate_password_hash(form.user_password.data)
         new_user = User(
+            username=form.username.data,
             first_name=form.user_first_name.data,
             last_name=form.user_last_name.data,
             email=form.user_email.data,

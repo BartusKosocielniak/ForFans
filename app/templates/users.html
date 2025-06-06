@@ -17,7 +17,7 @@
   <div class="wrapper">
     <p>
         {% for user in users %}
-            <li>ID: {{ user.id }} | Nazwa: {{ user.first_name }} | LastName: {{ user.last_name }} | | Email: {{ user.email }} | Role: {{ user.role }}</li>
+            <li>Username: {{ user.username }} | ID: {{ user.id }} | Nazwa: {{ user.first_name }} | LastName: {{ user.last_name }} | | Email: {{ user.email }} | Role: {{ user.role }}</li>
         {% else %}
             <li>Brak użytkowników w bazie danych.</li>
         {% endfor %}

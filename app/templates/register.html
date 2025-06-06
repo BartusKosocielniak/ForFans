@@ -67,7 +67,14 @@
     <p>{{ exception }}</p>
     <form method="post" class="mt-4">
         {{ register_form.hidden_tag() }}
-        
+        <div class="mb-3 text-start">
+            <label for="user_first_name" class="form-label">Username</label>
+            <div class="">
+                <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-person"></i></span>
+                {{ register_form.username(class="form-control text-center", id="user_first_name", placeholder="Username") }}
+            </div>
+        </div>
+
         <div class="mb-3 text-start">
             <label for="user_first_name" class="form-label">Imię</label>
             <div class="">
