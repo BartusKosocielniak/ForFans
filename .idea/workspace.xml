@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="570032a6-fee7-4286-8f1b-6e41363e5a53" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/forfuns.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/forfuns.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/includes/aside-menu-admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/includes/aside-menu-admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/includes/aside-menu-creator.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/includes/aside-menu-creator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/users.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/users.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/users.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/data/users.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/todo" beforeDir="false" afterPath="$PROJECT_DIR$/todo" afterDir="false" />
     </list>
@@ -196,7 +199,7 @@
       <workItem from="1745388160220" duration="2705000" />
       <workItem from="1749033729364" duration="7258000" />
       <workItem from="1749133827267" duration="1362000" />
-      <workItem from="1749192860490" duration="2413000" />
+      <workItem from="1749192860490" duration="15513000" />
     </task>
     <servers />
   </component>
@@ -208,6 +211,6 @@
     <SUITE FILE_PATH="coverage/ForFans$app.coverage" NAME="app Coverage Results" MODIFIED="1748793411873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/forfuns$forfuns.coverage" NAME="forfuns Coverage Results" MODIFIED="1742975463837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/forfuns$Flask__05_Task_app_py_.coverage" NAME="Flask (05-Task/app.py) Coverage Results" MODIFIED="1744121214980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/ForFans$Flask__run_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1749198386254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ForFans$Flask__run_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1749212009544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

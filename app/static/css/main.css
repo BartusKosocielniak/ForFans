@@ -8,7 +8,8 @@ body {
     background: linear-gradient(to right, #4A90E2, #50C9C3);
     color: #fff;
     margin: 0;
-    font-family: Arial, sans-serif;
+    /*font-family: Arial, sans-serif;*/
+    font-size: 15px;
     height: 100vh;
     overflow: hidden; /* Blokuj scrollowanie całego okna */
 }
@@ -49,3 +50,13 @@ body {
     overflow-y: auto;
     height: 100vh;
 }
+
+.btn{
+    font-size: 20px;
+}
+/*.modal {*/
+/*    z-index: 1060 !important;*/
+/*}*/
+/*.modal-backdrop {*/
+/*    z-index: 1060 !important;*/
+/*}*/
