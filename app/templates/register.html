@@ -49,73 +49,92 @@
         .btn-custom, .btn-primary {
             margin-top: 1rem;
         }
-
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+        }
     </style>
-  {{ super() }}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 {% endblock %}
 
-{% block title %}{{ title }}{% endblock %} 
+{% block title %}{{ title }}{% endblock %}
 
-{% block navbar %}{% endblock %} 
+{% block navbar %}{% endblock %}
 
-{% block content %}     
+{% block content %}
 <div class="login-container">
     <i class="bi bi-people display-1 text-white-50"></i>
     <p class="display-6 fw-bold">{{ header }}</p>
     <p class="h5 text-white-50">Create your account</p>
-    <p>{{ exception }}</p>
+
     <form method="post" class="mt-4">
         {{ register_form.hidden_tag() }}
+
         <div class="mb-3 text-start">
-            <label for="user_first_name" class="form-label">Username</label>
-            <div class="">
-                <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-person"></i></span>
-                {{ register_form.username(class="form-control text-center", id="user_first_name", placeholder="Username") }}
+            <label for="username" class="form-label">Username</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                </div>
+                {{ register_form.username(class="form-control text-center", id="username", placeholder="Username") }}
             </div>
         </div>
 
         <div class="mb-3 text-start">
-            <label for="user_first_name" class="form-label">First name</label>
-            <div class="">
-                <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-person"></i></span>
-                {{ register_form.user_first_name(class="form-control text-center", id="user_first_name", placeholder="Your first name") }}
-            </div>
-        </div>
-        
-        <div class="mb-3 text-start">
-            <label for="user_last_name" class="form-label">Last name</label>
-            <div class="">
-                <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-person"></i></span>
-                {{ register_form.user_last_name(class="form-control text-center", id="user_last_name", placeholder="Your last name") }}
-            </div>
-        </div>
-        
-        <div class="mb-3 text-start">
-            <label for="user_email" class="form-label">Email</label>
-            <div class="">
-                <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-envelope"></i></span>
-                {{ register_form.user_email(class="form-control text-center", id="user_email", placeholder="Your email") }}
-            </div>
-        </div>
-        
-        <div class="mb-3 text-start">
-            <label for="user_password" class="form-label">Password</label>
-            <div class="">
-                <span class="input-group-text bg-transparent border-white text-white"><i class="bi bi-key"></i></span>
-                {{ register_form.user_password(class="form-control text-center", id="user_password", placeholder="Your password", type="password") }}
+            <label for="first_name" class="form-label">First name</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                </div>
+                {{ register_form.user_first_name(class="form-control text-center", id="first_name", placeholder="Your first name") }}
             </div>
         </div>
 
-        <div class="d-flex gap-3 mt-4">
+        <div class="mb-3 text-start">
+            <label for="last_name" class="form-label">Last name</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                </div>
+                {{ register_form.user_last_name(class="form-control text-center", id="last_name", placeholder="Your last name") }}
+            </div>
+        </div>
+
+        <div class="mb-3 text-start">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                </div>
+                {{ register_form.user_email(class="form-control text-center", id="email", placeholder="Your email") }}
+            </div>
+        </div>
+
+        <div class="mb-3 text-start">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-key"></i></span>
+                </div>
+                {{ register_form.user_password(class="form-control text-center", id="password", placeholder="Your password", type="password") }}
+            </div>
+        </div>
+
+        <div class="d-flex gap-3 mt-4 justify-content-center">
             {{ register_form.submit(class="btn btn-custom rounded-3") }}
-            <a class="btn btn-primary rounded-3 px-4 py-2 m-1"  href="/">Sign in</a>
+            <a class="btn btn-primary rounded-3 px-4 py-2" href="/">Sign in</a>
         </div>
-
     </form>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+    {% endwith %}
 
-
-
-
-</div> 
+</div>
 {% endblock %}

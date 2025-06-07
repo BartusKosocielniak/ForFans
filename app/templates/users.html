@@ -19,7 +19,7 @@
     <div class="wrapper container mt-4">
         <div class="mb-3 d-flex">
             <input type="text" class="form-control" id="search-input" placeholder="Find user...">
-            <button class="btn p-2 btn-warning"><i class="bi bi-plus-circle "></i></button>
+            <a class="btn p-2 btn-warning" href="/register" target="_blank"><i class="bi bi-plus-circle "></i></a>
         </div>
 
         <div>
@@ -129,7 +129,7 @@
       <div class="modal-content">
     <div class="modal-footer p-5">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button onclick="deleteUser()" class="btn btn-warning">Delete</button>
+        <button id="delete-user" class="btn btn-warning">Delete</button>
     </div>
       </div>
   </div>
@@ -140,6 +140,7 @@
 
 <script>
   const modal = document.getElementById('editUserModal');
+  const deleteModal = document.getElementById('deleteUserModal');
 
   if (modal) {
     modal.addEventListener('show.bs.modal', function (event) {
@@ -164,7 +165,7 @@
         role: document.getElementById('modal-role').value
       };
 
-      fetch('/update_user', {
+      fetch('/update_user_by_id', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -190,6 +191,49 @@
     });
   }
 
+
+
+if (deleteModal) {
+
+    let userId;
+
+    // When the modal is about to be shown, get the user ID from the button
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        userId = button.getAttribute('data-user-id');
+    });
+
+    // When the delete button inside the modal is clicked
+    document.getElementById('delete-user').addEventListener('click', function (e) {
+        e.preventDefault();
+        console.log(userId + " ID selected for deletion");
+
+        fetch(`/delete/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                 {#'X-CSRFToken': '{{ csrf_token() }}'#}
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('User has been successfully deleted.');
+                location.reload();  // Refresh the list after deletion
+            } else {
+                alert('Error: ' + (data.error || 'Failed to delete the user.'));
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            alert('An error occurred on the client side.');
+        });
+    });
+
+}
+
+
+
   document.getElementById('search-input').addEventListener('input', function (e) {
     const searchText = e.target.value.toLowerCase();
     const rows = document.querySelectorAll('tbody tr');
@@ -199,40 +243,6 @@
       row.style.display = text.includes(searchText) ? '' : 'none';
     });
   });
-
-function deleteUser() {
-      const modal = document.getElementById('deleteUserModal');
-
-  if (modal) {
-      modal.addEventListener('show.bs.modal', function (event) {
-          const button = event.relatedTarget;
-          const userId = button.getAttribute('data-user-id');
-          console.log(userId + "IDDDD")
-            fetch(`/delete/${userId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    {#'X-CSRFToken': '{{ csrf_token() }}'  // jeśli używasz CSRF (np. Flask-WTF)#}
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Użytkownik usunięty');
-                    location.reload();  // odświeżenie listy po usunięciu
-                } else {
-                    alert('Błąd: ' + (data.error || 'Nie udało się usunąć użytkownika'));
-                }
-            })
-            .catch(error => {
-                console.error('Błąd fetch:', error);
-                alert('Wystąpił błąd po stronie klienta');
-            });
-      });
-  }
-}
-
-
 </script>
 </body>
 </html>

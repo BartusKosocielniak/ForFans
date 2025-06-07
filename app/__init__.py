@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_bootstrap import Bootstrap
+from flask_bs4 import Bootstrap
+# from flask_bootstrap import Bootstrap
 import os
 
 db = SQLAlchemy()
@@ -10,6 +11,7 @@ login_manager.login_view = 'login'
 
 def create_app():
     app = Flask(__name__)
+    bootstrap = Bootstrap(app)
     app.config['SECRET_KEY'] = "MesGQOn2VI"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -17,9 +19,8 @@ def create_app():
 
     db.init_app(app)
     login_manager.init_app(app)
-    # bootstrap = Bootstrap(app)
 
-    Bootstrap(app)
+    # Bootstrap(app)
 
     with app.app_context():
         from . import routes, models

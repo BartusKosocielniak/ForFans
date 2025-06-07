@@ -16,23 +16,27 @@ def login():
             login_user(user)
             return redirect(url_for('home'))
         else:
-            flash('Incorrect password or email')
+            flash('Incorrect password or email', 'danger')
     return render_template('login.html', login_form=form, title="Sign in", header="Hello!")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        existing_user = User.query.filter_by(
-            email=form.user_email.data,
-            username=form.username.data
-        ).first()
-        if existing_user:
-            return render_template('register.html', register_form=form, title="Sing up", header="Dołącz do nas!",
-                                   exception='A user with that email or username already exists.')
+        existing_email = User.query.filter_by(email=form.user_email.data).first()
+        existing_username = User.query.filter_by(username=form.username.data).first()
+
+        if existing_email:
+            flash('An account with this email already exists.', 'danger')
+            return redirect(url_for('register'))
+
+        if existing_username:
+            flash('An account with this username already exists.', 'danger')
+            return redirect(url_for('register'))
 
         role = 'admin' if User.query.count() == 0 else 'user'
         hashed_pw = generate_password_hash(form.user_password.data)
+
         new_user = User(
             username=form.username.data,
             first_name=form.user_first_name.data,
@@ -46,7 +50,9 @@ def register():
         flash('Sign up success. Sign in.', 'success')
         return redirect(url_for('login'))
 
-    return render_template('register.html', register_form=form, title="Sign up", header="Join us", exception="")
+    return render_template('register.html', register_form=form, title="Sign up", header="Join us")
+
+
 
 
 @app.route('/home')
@@ -93,7 +99,7 @@ def show_users():
 #
 
 #
-@app.route('/update_user', methods=['POST'])
+@app.route('/update_user_by_id', methods=['POST'])
 @login_required
 @admin_required
 def update_user():
@@ -132,3 +138,5 @@ def delete(user_id):
         db.session.commit()
         return jsonify({'success': True})
     return jsonify({'success': False, 'error': 'User not found'}), 404
+
+
