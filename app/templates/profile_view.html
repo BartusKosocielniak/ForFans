@@ -1,0 +1,85 @@
+{% extends "bootstrap/base.html" %}
+{% block scripts %}
+    {{ super() }}
+    {#    <link rel="stylesheet" href="static/css/aside.css">#}
+    {#    <link rel="stylesheet" href='static/css/main.css'>#}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+{% block navbar %}
+
+{% endblock %}
+{% block content %}
+    {#    <div class="d-flex">#}
+    <div class="layout-container">
+        {% if user.role == "admin" %}
+            {% include "includes/aside-menu-admin.html" %}
+        {% elif user.role == "creator" %}
+            {% include "includes/aside-menu-creator.html" %}
+        {% else %}
+            {% include "includes/aside-menu-user.html" %}
+        {% endif %}
+
+        <div class="wrapper d-flex align-self-stretch">
+            <div class="container p-1 ">
+                <!-- Baner -->
+                <div class="position-relative">
+{#                    without baner#}
+{#                    <img src="{{ url_for('static', filename='images/banner.jpg') }}" class="w-100"#}
+{#                         style="height: 200px; object-fit: cover;" alt="baner">#}
+
+                    <!-- Zdjęcie profilowe -->
+                    <img src="{{ url_for('static', filename='images/profile.jpg') }}"
+                         class="rounded-circle border border-white position-absolute"
+                         style="width: 120px; height: 120px; left: 20px; object-fit: cover;"
+                         alt="profil">
+                </div>
+
+                <!-- Informacje użytkownika -->
+                <div class="px-3 pt-5">
+                    <h4 class="mb-0">{{ show_user.full_name }}</h4>
+                    <small class="text-muted">@{{ show_user.username }}</small>
+                    <p class="mt-2">Programista 💻 <a href="#">linktr.ee/{{ show_user.username }}</a></p>
+
+                    <div class="d-flex text-muted mb-3 align-items-center d-flex">
+                        <div class="mr-3 p-1"><strong>234</strong> obserwujących</div>
+                        <div class="p-1"><strong>180</strong> obserwowani</div>
+{#                        sprawdzenie czy followuje#}
+                        <button class="p-1 btn btn-warning">Follow</button>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Lista postów -->
+                <div class="px-3">
+                    {% for i in range(6) %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <img src="{{ url_for('static', filename='images/profile.jpg') }}"
+                                         class="rounded-circle mr-3"
+                                         style="width: 48px; height: 48px; object-fit: cover;">
+                                    <div>
+                                        <strong>{{ show_user.full_name }}</strong> <small
+                                            class="text-muted">@{{ show_user.username }} · {{ 3 + i }}h</small>
+                                        <p class="mb-1">To jest przykładowy wpis numer {{ i + 1 }}. Możesz tu dodać
+                                            zdjęcie, tekst, link lub wideo.</p>
+                                        <div class="d-flex text-muted small">
+                                            <div class="mr-3"><i class="bi bi-heart"></i> 12</div>
+                                            <div class="mr-3"><i class="bi bi-chat"></i> 3</div>
+                                            <div><i class="bi bi-share"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {#    //zrob search#}
+{% endblock %}

@@ -50,6 +50,9 @@ body {
     overflow-y: auto;
     height: 100vh;
 }
+.wrapper{
+    width: 80%;
+}
 
 .btn{
     font-size: 20px;

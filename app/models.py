@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(200))
     role = db.Column(db.String(10), default='user')#creator, admin, user
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

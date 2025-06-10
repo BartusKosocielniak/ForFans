@@ -77,7 +77,7 @@ def show_users():
     # if current_user.role != 'admin':
     #     abort(403)  # Forbidden
     users = User.query.all()
-    return render_template("users.html", users=users)
+    return render_template("users.html", users=users, user=current_user)
 
 
 # @app.route('/update_user', methods=['POST'])
@@ -131,6 +131,7 @@ def update_user():
 
 @app.route('/delete/<int:user_id>', methods=['DELETE'])
 @login_required
+@admin_required
 def delete(user_id):
     user = User.query.get(user_id)
     if user:
@@ -140,3 +141,11 @@ def delete(user_id):
     return jsonify({'success': False, 'error': 'User not found'}), 404
 
 
+@app.route('/user/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def show_user(user_id):
+    if current_user.id != user_id:
+        show_user = User.query.filter_by(id=user_id).all()
+        return render_template("profile_view.html", show_user=show_user[0], user=current_user)
+    if current_user.id == user_id or current_user.role == 'admin':
+        return render_template("profile_self.html", show_user=current_user, user=current_user)
