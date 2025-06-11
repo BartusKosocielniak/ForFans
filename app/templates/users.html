@@ -54,7 +54,8 @@
                                         data-first-name="{{ user.first_name }}"
                                         data-last-name="{{ user.last_name }}"
                                         data-email="{{ user.email }}"
-                                        data-role="{{ user.role }}">
+                                        data-role="{{ user.role }}"
+                                        data-description="{{ user.description }}">
                                     Edit
                                 </button>
                                 <button class="btn btn-sm btn-danger"
@@ -115,6 +116,10 @@
                   <option value="user">User</option>
                 </select>
             </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <input type="text" class="form-control" id="modal-description">
+            </div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Save changes</button>
@@ -151,6 +156,7 @@
       document.getElementById('modal-last-name').value = button.getAttribute('data-last-name');
       document.getElementById('modal-email').value = button.getAttribute('data-email');
       document.getElementById('modal-role').value = button.getAttribute('data-role');
+      document.getElementById('modal-description').value = button.getAttribute('data-description');
     });
 
     document.getElementById('edit-user-form').addEventListener('submit', function (e) {
@@ -162,7 +168,8 @@
         first_name: document.getElementById('modal-first-name').value,
         last_name: document.getElementById('modal-last-name').value,
         email: document.getElementById('modal-email').value,
-        role: document.getElementById('modal-role').value
+        role: document.getElementById('modal-role').value,
+        description: document.getElementById('modal-description').value
       };
 
       fetch('/update_user_by_id', {

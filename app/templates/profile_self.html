@@ -30,7 +30,7 @@
                     {#                         style="height: 200px; object-fit: cover;" alt="baner">#}
 
                     <!-- Zdjęcie profilowe -->
-                    <img src="{{ url_for('static', filename='uploads/IMG_6663.jpg') }}"
+                    <img src="/static/uploads/{{show_user.image_file}}"
                          class="rounded-circle border border-white"
                          style="
                          width: 120px; height: 120px; left: 20px;
@@ -49,6 +49,7 @@
                         <div class="p-1"><strong>180</strong> obserwowani</div>
                         {#                        sprawdzenie czy followuje#}
                         <button class="p-1 btn btn-warning">Edit profile</button>
+                        <a class="p-1 btn btn-warning">Edit profile</a>
                     </div>
                 </div>
 

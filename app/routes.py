@@ -3,9 +3,12 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .models import User, admin_required
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, UpdateAccountForm
 from flask import current_app as app
 from flask import request, jsonify
+
+from .utils import save_picture  # jeśli masz osobny plik
+
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -18,6 +21,7 @@ def login():
         else:
             flash('Incorrect password or email', 'danger')
     return render_template('login.html', login_form=form, title="Sign in", header="Hello!")
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -43,7 +47,8 @@ def register():
             last_name=form.user_last_name.data,
             email=form.user_email.data,
             password=hashed_pw,
-            role=role
+            role=role,
+            description="empty"
         )
         db.session.add(new_user)
         db.session.commit()
@@ -53,12 +58,11 @@ def register():
     return render_template('register.html', register_form=form, title="Sign up", header="Join us")
 
 
-
-
 @app.route('/home')
 @login_required
 def home():
     return render_template('home.html', user=current_user)
+
 
 @app.route('/logout')
 @login_required
@@ -110,6 +114,7 @@ def update_user():
     last_name = data.get('last_name')
     email = data.get('email')
     role = data.get('role')
+    description = data.get('description')
 
     # Przykład walidacji
     if not all([user_id, username, email, role, first_name, last_name]):
@@ -125,9 +130,11 @@ def update_user():
     user.last_name = last_name
     user.email = email
     user.role = role
+    user.description = description
     db.session.commit()
 
     return jsonify({'success': True})
+
 
 @app.route('/delete/<int:user_id>', methods=['DELETE'])
 @login_required
@@ -149,3 +156,41 @@ def show_user(user_id):
         return render_template("profile_view.html", show_user=show_user[0], user=current_user)
     if current_user.id == user_id or current_user.role == 'admin':
         return render_template("profile_self.html", show_user=current_user, user=current_user)
+    return None
+
+
+@app.route("/user/<int:user_id>/edit", methods=['GET', 'POST'])
+@login_required
+def account(user_id):
+    if current_user.id == user_id or current_user.role == 'admin':
+        form = UpdateAccountForm()
+        if form.validate_on_submit():
+            # Obsługa zdjęcia
+            if form.picture.data:
+                picture_file = save_picture(form.picture.data)
+                current_user.image_file = picture_file
+
+            # Aktualizacja danych
+            current_user.username = form.username.data
+            current_user.first_name = form.user_first_name.data
+            current_user.last_name = form.user_last_name.data
+            current_user.email = form.user_email.data
+
+            db.session.commit()
+            flash('Konto zostało zaktualizowane!', 'success')
+            return redirect(url_for('show_user', user_id=current_user.id))
+
+        elif request.method == 'GET':
+            # Wstępne uzupełnienie formularza
+            form.username.data = current_user.username
+            form.user_first_name.data = current_user.first_name
+            form.user_last_name.data = current_user.last_name
+            form.user_email.data = current_user.email
+
+        image_file = url_for('static', filename='uploads/' + current_user.image_file)
+        return render_template('profile_edit.html',
+                               title='Moje konto',
+                               image_file=image_file,
+                               form=form,
+                               user=current_user)  # Dodaj to
+    return None

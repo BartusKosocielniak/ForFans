@@ -1,0 +1,68 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Edytuj profil{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="layout-container">
+    {% if user.role == "admin" %}
+        {% include "includes/aside-menu-admin.html" %}
+    {% elif user.role == "creator" %}
+        {% include "includes/aside-menu-creator.html" %}
+    {% else %}
+        {% include "includes/aside-menu-user.html" %}
+    {% endif %}
+
+    <div class="wrapper d-flex align-self-stretch">
+        <div class="container mt-4">
+            <h3>Edytuj swój profil</h3>
+            <hr>
+
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                <!-- Zdjęcie profilowe -->
+                <div class="form-group text-center">
+                    <img src="{{ image_file }}" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                    <div>
+                        {{ form.picture.label(class="form-label") }}
+                        {{ form.picture(class="form-control-file") }}
+                    </div>
+                </div>
+
+                <!-- Dane użytkownika -->
+                <div class="form-group">
+                    {{ form.username.label(class="form-label") }}
+                    {{ form.username(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.user_first_name.label(class="form-label") }}
+                    {{ form.user_first_name(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.user_last_name.label(class="form-label") }}
+                    {{ form.user_last_name(class="form-control") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.user_email.label(class="form-label") }}
+                    {{ form.user_email(class="form-control") }}
+                </div>
+
+                <!-- Przycisk -->
+                <div class="form-group mt-3">
+                    {{ form.submit(class="btn btn-primary") }}
+{#                    <a href="{{ url_for('user', user.id) }}" class="btn btn-secondary">Anuluj</a>#}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
