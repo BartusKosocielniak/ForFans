@@ -7,8 +7,10 @@ A web application built with Flask featuring user authentication, posting system
 First register user have admin.
 There are 3 types of users: admin, creator and user. At the moment, user and creator are the same, but in the future, creator will be able to make paid content
 
+By default, the database is located in the data directory (needs to be added) and the code will generate the database itself based on the table models
 ## 📁 Install dependencies
 pip install -r requirements.txt
+
 
 ## Run the application
 flask run
