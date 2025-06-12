@@ -79,14 +79,14 @@ zrob formularz update - jeden endpoint patch ktory tobi jak w webhookregistrator
 zrob cos z tym falsh poniewaz nie dziala+
 wyswietl kto kim jestes+
 formularz o zostaniu creatorem"reczenie nadanie" - bedzie jeden+
-
-
-
-
 /id usera - @login_required i jesli currentuser == id to user_edit.html a jesli nie to user+
 zrob tabelke relayjnie gdzie bedzie id tworcy(musi byc tworca) i bedzie dodawac posty, nastepnie(kazdy musi miec id unikalne ktore bedzie potrzebne do edycji i bedzie trzeba sprawdzac czy admin czy currentUserId = user.id)+
-zdjecie profilowe
-edycja
+zdjecie profilowe+
+
+
+
+
+edycja+
 https://chatgpt.com/c/683c538a-5974-8010-b263-32af2a9ac2c3 - rozwiaznie z followami, jak bedzie endpoint kazdego uzytkownika {{}} oraz przycisk nalezy odpowiednio zrobic
 //notyfication like when admin deleted post or creator created a post
 stałej szerkosci menu

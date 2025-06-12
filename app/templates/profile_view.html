@@ -25,14 +25,16 @@
             <div class="container p-1 ">
                 <!-- Baner -->
                 <div class="position-relative">
-{#                    without baner#}
-{#                    <img src="{{ url_for('static', filename='images/banner.jpg') }}" class="w-100"#}
-{#                         style="height: 200px; object-fit: cover;" alt="baner">#}
+                    {#                    without baner#}
+                    {#                    <img src="{{ url_for('static', filename='images/banner.jpg') }}" class="w-100"#}
+                    {#                         style="height: 200px; object-fit: cover;" alt="baner">#}
 
                     <!-- Zdjęcie profilowe -->
-                    <img src="{{ url_for('static', filename='images/profile.jpg') }}"
-                         class="rounded-circle border border-white position-absolute"
-                         style="width: 120px; height: 120px; left: 20px; object-fit: cover;"
+                    <img src="/static/uploads/{{ show_user.image_file }}"
+                         class="rounded-circle border border-white"
+                         style="
+                         width: 120px; height: 120px; left: 20px;
+                          object-fit: cover;"
                          alt="profil">
                 </div>
 
@@ -45,7 +47,7 @@
                     <div class="d-flex text-muted mb-3 align-items-center d-flex">
                         <div class="mr-3 p-1"><strong>234</strong> obserwujących</div>
                         <div class="p-1"><strong>180</strong> obserwowani</div>
-{#                        sprawdzenie czy followuje#}
+                        {#                        sprawdzenie czy followuje#}
                         <button class="p-1 btn btn-warning">Follow</button>
                     </div>
                 </div>
@@ -54,18 +56,21 @@
 
                 <!-- Lista postów -->
                 <div class="px-3">
-                    {% for i in range(6) %}
+                    {% for post in show_user.posts %}
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='images/profile.jpg') }}"
+                                    <img src="{{ url_for('static', filename='uploads/' + post.author.image_file) }}"
                                          class="rounded-circle mr-3"
                                          style="width: 48px; height: 48px; object-fit: cover;">
                                     <div>
-                                        <strong>{{ show_user.full_name }}</strong> <small
-                                            class="text-muted">@{{ show_user.username }} · {{ 3 + i }}h</small>
-                                        <p class="mb-1">To jest przykładowy wpis numer {{ i + 1 }}. Możesz tu dodać
-                                            zdjęcie, tekst, link lub wideo.</p>
+                                        <strong>{{ post.author.first_name }} {{ post.author.last_name }}</strong>
+                                        <small class="text-muted">
+                                            @{{ post.author.username }} ·
+                                            {{ post.date_posted.strftime('%H:%M %d.%m.%Y') }}
+                                        </small>
+                                        <h5 class="mt-1">{{ post.title }}</h5>
+                                        <p class="mb-1">{{ post.content }}</p>
                                         <div class="d-flex text-muted small">
                                             <div class="mr-3"><i class="bi bi-heart"></i> 12</div>
                                             <div class="mr-3"><i class="bi bi-chat"></i> 3</div>
@@ -75,6 +80,8 @@
                                 </div>
                             </div>
                         </div>
+                    {%  else %}
+                        <h4>no posts</h4>
                     {% endfor %}
                 </div>
             </div>

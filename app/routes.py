@@ -2,8 +2,8 @@ from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from .models import User, admin_required
-from .forms import LoginForm, RegisterForm, UpdateAccountForm
+from .models import User, admin_required, Post
+from .forms import LoginForm, RegisterForm, UpdateAccountForm, PostForm
 from flask import current_app as app
 from flask import request, jsonify
 
@@ -151,11 +151,14 @@ def delete(user_id):
 @app.route('/user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def show_user(user_id):
-    if current_user.id != user_id:
-        show_user = User.query.filter_by(id=user_id).all()
-        return render_template("profile_view.html", show_user=show_user[0], user=current_user)
+    show_user = User.query.filter_by(id=user_id).all()
+    posts = Post.query.filter_by(author=show_user[0]) \
+        .order_by(Post.date_posted.desc()) \
+        .all()
     if current_user.id == user_id or current_user.role == 'admin':
-        return render_template("profile_self.html", show_user=current_user, user=current_user)
+        return render_template("profile_self.html", show_user=show_user[0], user=current_user, posts=posts)
+    if current_user.id != user_id:
+        return render_template("profile_view.html", show_user=show_user[0], user=current_user, posts=posts)
     return None
 
 
@@ -163,34 +166,58 @@ def show_user(user_id):
 @login_required
 def account(user_id):
     if current_user.id == user_id or current_user.role == 'admin':
+        users = User.query.filter_by(id=user_id).all()
         form = UpdateAccountForm()
         if form.validate_on_submit():
             # Obsługa zdjęcia
             if form.picture.data:
                 picture_file = save_picture(form.picture.data)
-                current_user.image_file = picture_file
+                users[0].image_file = picture_file
 
             # Aktualizacja danych
-            current_user.username = form.username.data
-            current_user.first_name = form.user_first_name.data
-            current_user.last_name = form.user_last_name.data
-            current_user.email = form.user_email.data
+            users[0].username = form.username.data
+            users[0].first_name = form.user_first_name.data
+            users[0].last_name = form.user_last_name.data
+            users[0].email = form.user_email.data
 
             db.session.commit()
             flash('Konto zostało zaktualizowane!', 'success')
-            return redirect(url_for('show_user', user_id=current_user.id))
+            return redirect(url_for('show_user', user_id=users[0].id))
 
         elif request.method == 'GET':
             # Wstępne uzupełnienie formularza
-            form.username.data = current_user.username
-            form.user_first_name.data = current_user.first_name
-            form.user_last_name.data = current_user.last_name
-            form.user_email.data = current_user.email
+            form.username.data = users[0].username
+            form.user_first_name.data = users[0].first_name
+            form.user_last_name.data = users[0].last_name
+            form.user_email.data = users[0].email
 
-        image_file = url_for('static', filename='uploads/' + current_user.image_file)
+        image_file = url_for('static', filename='uploads/' + users[0].image_file)
         return render_template('profile_edit.html',
                                title='Moje konto',
                                image_file=image_file,
                                form=form,
-                               user=current_user)  # Dodaj to
+                               user=users[0])  # Dodaj to
     return None
+
+
+@app.route('/post/new', methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(
+            title=form.title.data,
+            content=form.content.data,
+            author=current_user
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash('Twój post został opublikowany!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title='Nowy Post', form=form)
+
+
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)

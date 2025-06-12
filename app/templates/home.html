@@ -10,21 +10,31 @@
 
 {% endblock %}
 {% block content %}
-{#    <div class="d-flex">#}
+    {#    <div class="d-flex">#}
     <div class="layout-container">
-    {% if user.role == "admin" %}
-        {% include "includes/aside-menu-admin.html" %}
-    {% elif user.role == "creator" %}
-        {% include "includes/aside-menu-creator.html" %}
-    {%  else  %}
-        {% include "includes/aside-menu-user.html" %}
-    {% endif %}
+        {% if user.role == "admin" %}
+            {% include "includes/aside-menu-admin.html" %}
+        {% elif user.role == "creator" %}
+            {% include "includes/aside-menu-creator.html" %}
+        {% else %}
+            {% include "includes/aside-menu-user.html" %}
+        {% endif %}
 
-    <div class="wrapper">
-    <p>
-        {{ user }} something
-    </p>
+        <div class="wrapper">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <p>
+                {{ user }} something
+            </p>
+        </div>
     </div>
-    </div>
-{#    //zrob search#}
+    {#    //zrob search#}
 {% endblock %}

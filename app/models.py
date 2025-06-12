@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from functools import wraps
 
 from flask import abort
@@ -16,6 +17,19 @@ class User(UserMixin, db.Model):
     role = db.Column(db.String(10), default='user')#creator, admin, user
     description = db.Column(db.String(200))
     image_file = db.Column(db.String(120), nullable=False, default='default.jpg')  # <- ścieżka
+    # posts = db.relationship('Post', backref='author', lazy=True)
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc) )
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    author = db.relationship('User', backref=db.backref('posts', lazy=True))
+
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')"
 
 
 @login_manager.user_loader
