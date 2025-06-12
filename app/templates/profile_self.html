@@ -42,7 +42,7 @@
                 <div class="px-3 pt-1">
                     <h4 class="mb-0">{{ show_user.full_name }}</h4>
                     <small class="text-muted">@{{ show_user.username }}</small>
-                    <p class="mt-2">Programista 💻 <a href="#">linktr.ee/{{ show_user.username }}</a></p>
+                    <p class="mt-2">{{ show_user.description }}</p>
 
                     <div class="d-flex text-muted mb-3 align-items-center d-flex">
                         <div class="mr-3 p-1"><strong>234</strong> obserwujących</div>
@@ -57,29 +57,9 @@
                 <!-- Lista postów -->
                 <div class="px-3">
                     {% for post in show_user.posts %}
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='uploads/' + post.author.image_file) }}"
-                                         class="rounded-circle mr-3"
-                                         style="width: 48px; height: 48px; object-fit: cover;">
-                                    <div>
-                                        <strong>{{ post.author.first_name }} {{ post.author.last_name }}</strong>
-                                        <small class="text-muted">
-                                            @{{ post.author.username }} ·
-                                            {{ post.date_posted.strftime('%H:%M %d.%m.%Y') }}
-                                        </small>
-                                        <h5 class="mt-1">{{ post.title }}</h5>
-                                        <p class="mb-1">{{ post.content }}</p>
-                                        <div class="d-flex text-muted small">
-                                            <div class="mr-3"><i class="bi bi-heart"></i> 12</div>
-                                            <div class="mr-3"><i class="bi bi-chat"></i> 3</div>
-                                            <div><i class="bi bi-share"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% include "includes/post-template.html" %}
+                    {% else %}
+                        <h4>no posts</h4>
                     {% endfor %}
                 </div>
             </div>

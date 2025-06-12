@@ -73,6 +73,7 @@
 
 
 ///-----------------------
+stałej szerkosci menu-
 try catch przy register jakby zagrazalo unique(za pomoca zwyklego if)+
 zrob po angielsku apkez+
 zrob formularz update - jeden endpoint patch ktory tobi jak w webhookregistrator czyli nie moze byc nic nullem, wczesniej do tych pol poza password wrzuca, okno bedzie w formie dialogu+
@@ -89,7 +90,6 @@ zdjecie profilowe+
 edycja+
 https://chatgpt.com/c/683c538a-5974-8010-b263-32af2a9ac2c3 - rozwiaznie z followami, jak bedzie endpoint kazdego uzytkownika {{}} oraz przycisk nalezy odpowiednio zrobic
 //notyfication like when admin deleted post or creator created a post
-stałej szerkosci menu
 zrob inclueds user-template cos w ten desen
 logo utwórz
 walidacja ze min 3 znaki itd
@@ -97,5 +97,6 @@ na koncu zrob jakies 500 403 404 itd
 zrob zeby byl min 1 admin
 zmiana hasla
 usuwanie+
+ CSRFProtect zrob
 profil creator - mozliowsc kupienia subsrykcji, zrob tablice z subskrypcjam
 add

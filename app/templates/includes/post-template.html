@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex">
+            <img src="{{ url_for('static', filename='uploads/' + post.author.image_file) }}"
+                 class="rounded-circle mr-3"
+                 style="width: 48px; height: 48px; object-fit: cover;">
+            <div>
+                <strong>{{ post.author.first_name }} {{ post.author.last_name }}</strong>
+                <small class="text-muted">
+                    @{{ post.author.username }} ·
+                    {{ post.date_posted.strftime('%H:%M %d.%m.%Y') }}
+                </small>
+                {% if post.user_id == user.id or user.role == 'admin' %}
+                    <form action="/post/{{ post.id }}/update" method="GET" style="display: inline;">
+                        <button type="submit" class="btn btn-warning">
+                            Edit
+                        </button>
+                    </form>
+                    <form action="/post/{{ post.id }}/delete" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Are yo sure to delete?')">
+                            Delete
+                        </button>
+                    </form>
+                {% endif %}
+                <h5 class="mt-1">{{ post.title }}</h5>
+                <p class="mb-1">{{ post.content }}</p>
+                <div class="d-flex text-muted small">
+                    <div class="mr-3"><i class="bi bi-heart"></i> 12</div>
+                    <div class="mr-3"><i class="bi bi-chat"></i> 3</div>
+                    <div><i class="bi bi-share"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

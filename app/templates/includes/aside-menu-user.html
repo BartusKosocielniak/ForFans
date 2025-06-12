@@ -1,55 +1,68 @@
-
- <aside class="sidebar p-3">
-          <p>Hello! {{ user.username }} Your role: {{ user.role }}</p>
-        <ul class="nav justify-content-center flex-column">
-            <li>
-                <a href="/app/static" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
-                    <i class="bi bi-house"></i>
-                    <span class="d-none d-xl-inline">Home</span>
-                </a>
-            </li>
-            <li>
-                <a href="/user/{{ user.id }}" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
-                    <i class="bi bi-person"></i>
-                    <span class="d-none d-xl-inline">My profile</span>
-                </a>
-            </li>
-            <li>
-                <a href="/offer" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
-                    <i class="bi bi-bell"></i>
-                    <span class="d-none d-xl-inline">Notification</span>
-                </a>
-            </li>
-            <li>
-                <a href="/price-list" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
-                    <i class="bi bi-chat"></i>
-                    <span class="d-none d-xl-inline">Message</span>
-                </a>
-            </li>
-            <li>
-                <a href="/price-list" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
-                    <i class="bi bi-heart"></i>
-                    <span class="d-none d-xl-inline">Liked</span>
-                </a>
-            </li>
-            <li>
-                <a href="/price-list" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
-                    <i class="bi bi-bag-check"></i>
-                    <span class="d-none d-xl-inline">Substricitions</span>
-                </a>
-            </li>
-            <li>
-                <a href="faqs" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
-                    <i class="bi bi-question-circle"></i>
-                    <span class="d-none d-xl-inline">FAQs</span>
-                </a>
-            </li>
-            <li>
-                <a href="/about" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
-                    <i class="bi bi-house-door"></i>
-                    <span class="d-none d-xl-inline">O nas</span>
-                </a>
-            </li>
-        </ul>
-                <a href="{{ url_for('logout') }}" class="btn btn-warning mt-3">LogOut</a>
-    </aside>
+<aside class="sidebar p-3">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <p>Hello! {{ user.username }} Your role: {{ user.role }}</p>
+    <ul class="nav justify-content-center flex-column">
+        <li>
+            <a href="/home" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
+                <i class="bi bi-house"></i>
+                <span class="d-none d-xl-inline">Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="/user/{{ user.id }}"
+               class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
+                <i class="bi bi-person"></i>
+                <span class="d-none d-xl-inline">My profile</span>
+            </a>
+        </li>
+        <li>
+            <a href="/offer" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
+                <i class="bi bi-bell"></i>
+                <span class="d-none d-xl-inline">Notification</span>
+            </a>
+        </li>
+        <li>
+            <a href="/price-list"
+               class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
+                <i class="bi bi-chat"></i>
+                <span class="d-none d-xl-inline">Message</span>
+            </a>
+        </li>
+        <li>
+            <a href="/price-list"
+               class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
+                <i class="bi bi-heart"></i>
+                <span class="d-none d-xl-inline">Liked</span>
+            </a>
+        </li>
+        <li>
+            <a href="/price-list"
+               class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
+                <i class="bi bi-bag-check"></i>
+                <span class="d-none d-xl-inline">Substricitions</span>
+            </a>
+        </li>
+        <li>
+            <a href="faqs" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
+                <i class="bi bi-question-circle"></i>
+                <span class="d-none d-xl-inline">FAQs</span>
+            </a>
+        </li>
+        <li>
+            <a href="/about" class="nav-link text-white d-flex align-items-center justify-content-center flex-column">
+                <i class="bi bi-house-door"></i>
+                <span class="d-none d-xl-inline">O nas</span>
+            </a>
+        </li>
+    </ul>
+    <a href="{{ url_for('logout') }}" class="btn btn-warning mt-3">LogOut</a>
+</aside>

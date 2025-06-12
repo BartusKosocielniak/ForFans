@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import login_user, logout_user, login_required, current_user
+from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .models import User, admin_required, Post
@@ -151,6 +152,7 @@ def delete(user_id):
 @app.route('/user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def show_user(user_id):
+    # Post.query.get_or_404(post_id)
     show_user = User.query.filter_by(id=user_id).all()
     posts = Post.query.filter_by(author=show_user[0]) \
         .order_by(Post.date_posted.desc()) \
@@ -179,6 +181,7 @@ def account(user_id):
             users[0].first_name = form.user_first_name.data
             users[0].last_name = form.user_last_name.data
             users[0].email = form.user_email.data
+            users[0].description = form.description.data
 
             db.session.commit()
             flash('Konto zostało zaktualizowane!', 'success')
@@ -190,13 +193,14 @@ def account(user_id):
             form.user_first_name.data = users[0].first_name
             form.user_last_name.data = users[0].last_name
             form.user_email.data = users[0].email
+            form.description.data = users[0].description
 
         image_file = url_for('static', filename='uploads/' + users[0].image_file)
         return render_template('profile_edit.html',
                                title='Moje konto',
                                image_file=image_file,
                                form=form,
-                               user=users[0])  # Dodaj to
+                               user=current_user)  # Dodaj to
     return None
 
 
@@ -218,6 +222,57 @@ def new_post():
 
 
 @app.route('/post/<int:post_id>')
+@login_required
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
+    return render_template('post.html', title=post.title, post=post, user=current_user)
+
+@app.route('/posts')
+@login_required
+@admin_required
+def all_posts():
+    search_query = request.args.get('q', '').strip()  # Pobierz frazę wyszukiwania
+
+    if search_query:
+        # Wyszukaj posty, które zawierają frazę w tytule lub treści (case-insensitive)
+        posts = Post.query.filter(
+            or_(
+                Post.title.ilike(f'%{search_query}%'),
+                Post.content.ilike(f'%{search_query}%'),
+                User.username.ilike(f'%{search_query}%')  # Odwołanie przez model User
+            )
+        ).all()
+    else:
+        # Jeśli nie ma frazy, pokaż wszystkie posty
+        posts = Post.query.all()
+    return render_template('posts.html', user=current_user, posts=posts)
+
+@app.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.user_id != current_user.id and current_user.role != 'admin':
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Post został zaktualizowany!', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_post.html', title='Edycja Posta', form=form)
+
+@app.route('/post/<int:post_id>/delete', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.user_id != current_user.id and current_user.role != 'admin':
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Post został usunięty!', 'success')
+    return redirect(url_for('home'))
+
