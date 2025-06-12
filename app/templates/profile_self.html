@@ -45,8 +45,8 @@
                     <p class="mt-2">{{ show_user.description }}</p>
 
                     <div class="d-flex text-muted mb-3 align-items-center d-flex">
-                        <div class="mr-3 p-1"><strong>234</strong> obserwujących</div>
-                        <div class="p-1"><strong>180</strong> obserwowani</div>
+                        <div class="mr-3 p-1"><strong> {{ show_user.followers|length }}</strong> Followers:</div>
+                        <div class="p-1"><strong> {{ show_user.following|length }}</strong> Following:</div>
                         {#                        sprawdzenie czy followuje#}
                         <a href="/user/{{ show_user.id }}/edit" class="p-1 btn btn-warning">Edit profile</a>
                     </div>

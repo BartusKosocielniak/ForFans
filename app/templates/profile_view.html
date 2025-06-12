@@ -46,10 +46,18 @@
 
 
                     <div class="d-flex text-muted mb-3 align-items-center d-flex">
-                        <div class="mr-3 p-1"><strong>234</strong> obserwujących</div>
-                        <div class="p-1"><strong>180</strong> obserwowani</div>
+                        <div class="mr-3 p-1"><strong> {{ show_user.followers|length }}</strong> Followers:</div>
+                        <div class="p-1"><strong> {{ show_user.following|length }}</strong> Following:</div>
                         {#                        sprawdzenie czy followuje#}
-                        <button class="p-1 btn btn-warning">Follow</button>
+                        {% if user.id != show_user.id %}
+                            <form method="post" action="{{ url_for('toggle_follow', user_id=show_user.id) }}">
+                                {% if is_following %}
+                                    <button type="submit" class="btn btn-danger">UnFollow</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-success">Follow</button>
+                                {% endif %}
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -59,7 +67,7 @@
                 <div class="px-3">
                     {% for post in show_user.posts %}
                         {% include "includes/post-template.html" %}
-                    {%  else %}
+                    {% else %}
                         <h4>no posts</h4>
                     {% endfor %}
                 </div>

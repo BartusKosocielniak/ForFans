@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy import or_
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from .models import User, admin_required, Post
+from .models import User, admin_required, Post, Follow
 from .forms import LoginForm, RegisterForm, UpdateAccountForm, PostForm
 from flask import current_app as app
 from flask import request, jsonify
@@ -62,7 +62,35 @@ def register():
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html', user=current_user)
+    posts = Post.get_random_posts()
+    return render_template('home.html', user=current_user, posts=posts)
+
+
+@app.route("/search_users")
+@login_required
+def search_users():
+    query = request.args.get("q", "").strip()
+    if not query:
+        return jsonify([])
+
+    results = User.query.filter(
+        db.or_(
+            User.username.ilike(f"%{query}%"),
+            User.first_name.ilike(f"%{query}%"),
+            User.last_name.ilike(f"%{query}%")
+        )
+    ).limit(10).all()
+
+    users = [
+        {
+            "id": user.id,
+            "username": user.username,
+            "first_name": user.first_name,
+            "last_name": user.last_name
+        }
+        for user in results
+    ]
+    return jsonify(users)
 
 
 @app.route('/logout')
@@ -153,14 +181,17 @@ def delete(user_id):
 @login_required
 def show_user(user_id):
     # Post.query.get_or_404(post_id)
-    show_user = User.query.filter_by(id=user_id).all()
-    posts = Post.query.filter_by(author=show_user[0]) \
+    show_user = User.query.get_or_404(user_id)
+    is_following = False
+    # show_user = User.query.filter_by(id=user_id).all()
+    posts = Post.query.filter_by(author=show_user) \
         .order_by(Post.date_posted.desc()) \
         .all()
     if current_user.id == user_id or current_user.role == 'admin':
-        return render_template("profile_self.html", show_user=show_user[0], user=current_user, posts=posts)
+        return render_template("profile_self.html", show_user=show_user, user=current_user, posts=posts)
     if current_user.id != user_id:
-        return render_template("profile_view.html", show_user=show_user[0], user=current_user, posts=posts)
+        is_following = current_user.is_following(show_user)
+        return render_template("profile_view.html", show_user=show_user, user=current_user, posts=posts, is_following=is_following)
     return None
 
 
@@ -275,4 +306,27 @@ def delete_post(post_id):
     db.session.commit()
     flash('Post został usunięty!', 'success')
     return redirect(url_for('home'))
+
+@app.route('/toggle_follow/<int:user_id>', methods=['POST'])
+@login_required
+def toggle_follow(user_id):
+    # reszta kodu pozostaje bez zmian
+    user = User.query.get_or_404(user_id)
+
+    if user.id == current_user.id:
+        flash("Nie możesz obserwować samego siebie!", "warning")
+        return redirect(url_for('view_profile', user_id=user_id))
+
+    if current_user.is_following(user):
+        follow = Follow.query.filter_by(follower_id=current_user.id, followed_id=user.id).first()
+        db.session.delete(follow)
+        flash("Odobserwowałeś użytkownika", "info")
+    else:
+        follow = Follow(follower_id=current_user.id, followed_id=user.id)
+        db.session.add(follow)
+        flash("Obserwujesz użytkownika", "success")
+
+    db.session.commit()
+    return redirect(url_for('show_user', user_id=user_id))
+
 
