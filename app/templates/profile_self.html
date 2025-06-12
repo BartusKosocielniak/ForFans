@@ -29,7 +29,7 @@
                     {#                    <img src="{{ url_for('static', filename='images/banner.jpg') }}" class="w-100"#}
                     {#                         style="height: 200px; object-fit: cover;" alt="baner">#}
 
-                    <!-- Zdjęcie profilowe -->
+                    <!-- photo profile -->
                     <img src="/static/uploads/{{ show_user.image_file }}"
                          class="rounded-circle border border-white"
                          style="
@@ -38,7 +38,7 @@
                          alt="profil">
                 </div>
 
-                <!-- Informacje użytkownika -->
+                <!-- info about user -->
                 <div class="px-3 pt-1">
                     <h4 class="mb-0">{{ show_user.full_name }}</h4>
                     <small class="text-muted">@{{ show_user.username }}</small>
@@ -54,7 +54,7 @@
 
                 <hr>
 
-                <!-- Lista postów -->
+                <!-- list of posts -->
                 <div class="px-3">
                     {% for post in show_user.posts %}
                         {% include "includes/post-template.html" %}

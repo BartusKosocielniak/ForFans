@@ -26,7 +26,7 @@
             <form method="POST" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 
-                <!-- Zdjęcie profilowe -->
+                <!-- photo profile -->
                 <div class="form-group text-center">
                     <img src="{{ image_file }}" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                     <div>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <!-- Dane użytkownika -->
+                <!-- data user -->
                 <div class="form-group">
                     {{ form.username.label(class="form-label") }}
                     {{ form.username(class="form-control") }}
@@ -60,7 +60,7 @@
                     {{ form.description(class="form-control", rows=5) }}
                 </div>
 
-                <!-- Przycisk -->
+                <!-- button -->
                 <div class="form-group mt-3">
                     {{ form.submit(class="btn btn-primary") }}
 {#                    <a href="{{ url_for('user', user.id) }}" class="btn btn-secondary">Anuluj</a>#}

@@ -10,7 +10,6 @@ from . import login_manager
 
 
 class Follow(db.Model):
-    """Tabela pośrednicząca dla relacji obserwowania między użytkownikami"""
     __tablename__ = 'follow'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -33,7 +32,6 @@ class Follow(db.Model):
 
 class User(UserMixin, db.Model):
 
-    """Model użytkownika"""
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -47,7 +45,6 @@ class User(UserMixin, db.Model):
     image_file = db.Column(db.String(120), nullable=False, default='default.jpg')  # <- ścieżka
     # posts = db.relationship('Post', backref='author', lazy=True)
 
-    # Relacje dla obserwowania
     following_relations = db.relationship(
         'Follow',
         foreign_keys=[Follow.follower_id],
@@ -65,23 +62,19 @@ class User(UserMixin, db.Model):
     # Wygodne metody do obsługi obserwowanych
     @property
     def following(self):
-        """Lista użytkowników, których obserwuje obecny użytkownik"""
         return [rel.followed for rel in self.following_relations]
 
     @property
     def followers(self):
-        """Lista użytkowników obserwujących obecnego użytkownika"""
         return [rel.follower for rel in self.follower_relations]
 
     def follow(self, user):
-        """Obserwuj innego użytkownika"""
         if not self.is_following(user):
             rel = Follow(follower=self, followed=user)
             db.session.add(rel)
             db.session.commit()
 
     def unfollow(self, user):
-        """Przestań obserwować użytkownika"""
         rel = Follow.query.filter_by(
             follower_id=self.id,
             followed_id=user.id
@@ -91,14 +84,12 @@ class User(UserMixin, db.Model):
             db.session.commit()
 
     def is_following(self, user):
-        """Sprawdź czy obserwuje innego użytkownika"""
         return Follow.query.filter_by(
             follower_id=self.id,
             followed_id=user.id
         ).count() > 0
 
     def is_followed_by(self, user):
-        """Sprawdź czy jest obserwowany przez użytkownika"""
         return Follow.query.filter_by(
             follower_id=user.id,
             followed_id=self.id

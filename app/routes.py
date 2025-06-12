@@ -147,12 +147,12 @@ def update_user():
 
     # Przykład walidacji
     if not all([user_id, username, email, role, first_name, last_name]):
-        return jsonify({'success': False, 'error': 'Wypełnij wszystkie wymagane pola'}), 400
+        return jsonify({'success': False, 'error': 'Fill all required parameters'}), 400
 
     # Aktualizacja w bazie danych (przykład z SQLAlchemy)
     user = User.query.get(user_id)
     if not user:
-        return jsonify({'success': False, 'error': 'Użytkownik nie istnieje'}), 404
+        return jsonify({'success': False, 'error': 'User doesnt exist'}), 404
 
     user.username = username
     user.first_name = first_name
@@ -215,7 +215,7 @@ def account(user_id):
             users[0].description = form.description.data
 
             db.session.commit()
-            flash('Konto zostało zaktualizowane!', 'success')
+            flash('Profile has changed!', 'success')
             return redirect(url_for('show_user', user_id=users[0].id))
 
         elif request.method == 'GET':
@@ -247,9 +247,9 @@ def new_post():
         )
         db.session.add(post)
         db.session.commit()
-        flash('Twój post został opublikowany!', 'success')
+        flash('Your post uploaded!', 'success')
         return redirect(url_for('home'))
-    return render_template('create_post.html', title='Nowy Post', form=form)
+    return render_template('create_post.html', title='New Post', form=form)
 
 
 @app.route('/post/<int:post_id>')
@@ -262,19 +262,17 @@ def post(post_id):
 @login_required
 @admin_required
 def all_posts():
-    search_query = request.args.get('q', '').strip()  # Pobierz frazę wyszukiwania
+    search_query = request.args.get('q', '').strip()
 
     if search_query:
-        # Wyszukaj posty, które zawierają frazę w tytule lub treści (case-insensitive)
         posts = Post.query.filter(
             or_(
                 Post.title.ilike(f'%{search_query}%'),
                 Post.content.ilike(f'%{search_query}%'),
-                User.username.ilike(f'%{search_query}%')  # Odwołanie przez model User
+                User.username.ilike(f'%{search_query}%')
             )
         ).all()
     else:
-        # Jeśli nie ma frazy, pokaż wszystkie posty
         posts = Post.query.all()
     return render_template('posts.html', user=current_user, posts=posts)
 
@@ -289,12 +287,12 @@ def update_post(post_id):
         post.title = form.title.data
         post.content = form.content.data
         db.session.commit()
-        flash('Post został zaktualizowany!', 'success')
+        flash('Your profile updated!', 'success')
         return redirect(url_for('post', post_id=post.id))
     elif request.method == 'GET':
         form.title.data = post.title
         form.content.data = post.content
-    return render_template('create_post.html', title='Edycja Posta', form=form)
+    return render_template('create_post.html', title='edit post', form=form)
 
 @app.route('/post/<int:post_id>/delete', methods=['POST'])
 @login_required
@@ -304,27 +302,26 @@ def delete_post(post_id):
         abort(403)
     db.session.delete(post)
     db.session.commit()
-    flash('Post został usunięty!', 'success')
+    flash('Post has deleted!', 'success')
     return redirect(url_for('home'))
 
 @app.route('/toggle_follow/<int:user_id>', methods=['POST'])
 @login_required
 def toggle_follow(user_id):
-    # reszta kodu pozostaje bez zmian
     user = User.query.get_or_404(user_id)
 
     if user.id == current_user.id:
-        flash("Nie możesz obserwować samego siebie!", "warning")
+        flash("You cant follow yourself!", "warning")
         return redirect(url_for('view_profile', user_id=user_id))
 
     if current_user.is_following(user):
         follow = Follow.query.filter_by(follower_id=current_user.id, followed_id=user.id).first()
         db.session.delete(follow)
-        flash("Odobserwowałeś użytkownika", "info")
+        flash("Unfollow user", "info")
     else:
         follow = Follow(follower_id=current_user.id, followed_id=user.id)
         db.session.add(follow)
-        flash("Obserwujesz użytkownika", "success")
+        flash("Follow user", "success")
 
     db.session.commit()
     return redirect(url_for('show_user', user_id=user_id))
